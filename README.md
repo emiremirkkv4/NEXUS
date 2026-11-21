@@ -17,7 +17,7 @@ Set your trusted home network to **Private** in Windows Settings → Network & i
 
 On iPhone Safari, open the printed LAN URL followed by `/api/v1/status`. You should see `{"online":true}`. This tests reachability before app installation. A guest Wi-Fi network with client isolation can prevent devices from reaching each other. Leave your router's port forwarding off.
 
-## 4 · Sign and install on your iPhone.
+## 2 · Sign and install on your iPhone.
 
 1. Check Settings → General → About for iOS 17 or later. Download **Sideloadly for Windows** from its official site. Follow its Windows prerequisites for Apple's desktop iTunes and iCloud installers. The official download page provides links and guidance for Microsoft Store installations. [Sideloadly downloads and FAQ](https://sideloadly.io/)
 2. Connect and unlock the iPhone using a data-capable USB cable. Tap **Trust This Computer** and enter the device passcode if prompted. Select your iPhone in Sideloadly and drag **NEXUS.ipa** into its window.
@@ -28,7 +28,7 @@ On iPhone Safari, open the printed LAN URL followed by `/api/v1/status`. You sho
 
 **Free signing lasts seven days.** Re-sign the same IPA with Sideloadly and the same Apple ID and bundle identity before expiry. An expired app can stop launching until you refresh it. You can reuse the downloaded IPA for this. Optional automatic refresh depends on Sideloadly being able to reach your phone and Apple's signing services. Free provisioning limits active apps and app identifiers. It is for personal device testing. App Store and TestFlight distribution require program membership. [Sideloadly FAQ](https://sideloadly.io/) · [Apple developer account capabilities](https://developer.apple.com/help/account/basics/about-your-developer-account)
 
-## 5 · What the numbers mean
+## 3 · What the numbers mean
 
 | Read-only route | Authentication | Response |
 | --- | --- | --- |
@@ -37,7 +37,7 @@ On iPhone Safari, open the printed LAN URL followed by `/api/v1/status`. You sho
 
 The snapshot includes a Unix timestamp, hostname, OS, CPU usage and OS-reported MHz, RAM percentage and total/available bytes, system-drive percentage and total/free bytes, uptime in seconds, aggregate network byte counters and upload/download rates in **bytes per second**. Adapters include local and virtual traffic. A missing frequency or unmeasurable rate is null. Charts start empty and accumulate actual samples while connected. An unreachable PC cannot report its own offline state, so clients detect request failures. A 503 means the service is reachable and awaiting a fresh sample. There is no historical database.
 
-## 6 · Troubleshooting
+## 4 · Troubleshooting
 
 | Symptom | What to check |
 | --- | --- |
@@ -50,7 +50,7 @@ The snapshot includes a Unix timestamp, hostname, OS, CPU usage and OS-reported 
 | Device absent in Sideloadly | Unlock, trust the computer, verify the USB data cable and confirm desktop iTunes can see the iPhone. |
 | Signing limit or identifier error | Read Sideloadly's exact error. Use an available free app slot or wait for the identifier limit to reset. For a bundle identifier collision, set a unique reverse-DNS identifier in project.yml and rebuild, or use Sideloadly's bundle ID option. Keep that identity for future refreshes. |
 
-## 7 · Security and future development
+## 5 · Security and future development
 
 The server creates a random 256-bit bearer token in the signed-in Windows user's Local AppData folder. Anyone who can read that file can access telemetry. To rotate it, stop the server, move the token file out of that folder, restart, and pair your clients with the newly generated value. Store the old file securely or discard it. The browser keeps the token in memory. The iPhone uses a device-only, when-unlocked Keychain item. The iOS client accepts private IPv4 addresses, declines HTTP redirects and declares local network usage and scoped ATS exceptions. [Apple's ATS exception domains](https://developer.apple.com/documentation/bundleresources/information-property-list/nsapptransportsecurity/nsexceptiondomains)
 
