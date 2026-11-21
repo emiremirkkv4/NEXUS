@@ -1,5 +1,8 @@
 name: Build unsigned NEXUS IPA
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
 permissions:
   contents: read
 jobs:
@@ -37,3 +40,21 @@ jobs:
           path: ios/NEXUS.ipa
           if-no-files-found: error
           retention-days: 14
+
+  attach-to-release:
+    if: github.event_name == 'release'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: NEXUS-unsigned
+      - name: Attach unsigned iPhone app
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          mv NEXUS.ipa NEXUS-unsigned.ipa
+          gh release upload "$TAG" NEXUS-unsigned.ipa --repo "$GITHUB_REPOSITORY"

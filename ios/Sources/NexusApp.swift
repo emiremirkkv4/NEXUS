@@ -128,7 +128,7 @@ private struct Devices: View {
 
 private struct SettingsView: View {
     @EnvironmentObject var monitor: Monitor
-    @AppStorage("pcHost") var host = ""
+    @AppStorage("pcHost") var host = "192.168.0.12"
     @AppStorage("pcPort") var port = "8765"
     @AppStorage("interval") var interval = 2
     @State private var token = ""
@@ -136,6 +136,15 @@ private struct SettingsView: View {
         Page(title: "Settings") {
             VStack(alignment: .leading, spacing: 12) {
                 Text("Windows server").font(.headline)
+                Menu("Choose server address") {
+                    ForEach(["192.168.0.12", "192.168.56.1", "127.0.0.1"], id: \.self) { address in
+                        Button(address) { host = address; token = "" }
+                    }
+                }
+                Text(host == "127.0.0.1" ? "Loopback reaches this phone. A local forward is required to reach the PC." :
+                     host == "192.168.56.1" ? "Requires a network route to this PC interface." :
+                     "Start the Windows server on the same address.")
+                    .font(.footnote).foregroundStyle(.secondary)
                 TextField("PC IPv4 address", text: $host).keyboardType(.decimalPad)
                 TextField("Server port", text: $port).keyboardType(.numberPad)
                 SecureField("Pairing token", text: $token)

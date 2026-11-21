@@ -80,7 +80,7 @@ final class Monitor: ObservableObject {
         let parts = host.split(separator: ".", omittingEmptySubsequences: false)
         let numbers = parts.compactMap { UInt8($0) }
         guard numbers.count == 4, numbers.map({ String($0) }).joined(separator: ".") == host,
-              numbers[0] == 10 || (numbers[0] == 172 && (16...31).contains(numbers[1])) ||
+              host == "127.0.0.1" || numbers[0] == 10 || (numbers[0] == 172 && (16...31).contains(numbers[1])) ||
               (numbers[0] == 192 && numbers[1] == 168),
               let p = UInt16(port), p > 0 else {
             detail = "Use the PC’s private IPv4 address and a port from 1 to 65535."

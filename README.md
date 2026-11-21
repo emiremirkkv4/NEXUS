@@ -71,3 +71,13 @@ The API exposes monitoring only. A future provider can add its own read-only rou
 - **Windows:** Start with the launcher, open the dashboard, try an incorrect token, then pair. Compare memory and disk to Task Manager or File Explorer. Create normal activity and watch the plot update. Disconnect and confirm that readings clear. Stop the server during polling to test connection loss.
 - **GitHub macOS runner:** Generate the Xcode project, compile and link SwiftUI, Charts and Security against the device SDK, then verify and download the unsigned IPA. The Windows tests cannot verify Apple's build tools.
 - **Physical iPhone:** Verify Sideloadly signing, trust, first launch, Local Network permission, Keychain reuse after relaunch, charts, and disconnect/reconnect. Put the PC to sleep or disable Wi-Fi to test connection errors. Re-sign before the seven-day deadline.
+
+## Mobile address picker (v1.0.1)
+
+Choose the same interface in the Windows launcher and mobile Settings. Both apps offer these presets:
+
+- **192.168.0.12** — the gaming PC's home Ethernet address when this build was made. Use this first on home Wi-Fi.
+- **192.168.56.1** — another PC interface. The phone needs a route to that network.
+- **127.0.0.1** — loopback on the device running the client. On a phone this requires a separately configured local forward to reach Windows.
+
+On Android, open Settings and tap the server address. On iPhone, open Settings and tap Choose server address, or enter a private IPv4 address manually. Pairing tokens are saved separately per address and port. See [Android setup and build instructions](android/README.md).
