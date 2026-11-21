@@ -17,22 +17,6 @@ Set your trusted home network to **Private** in Windows Settings → Network & i
 
 On iPhone Safari, open the printed LAN URL followed by `/api/v1/status`. You should see `{"online":true}`. This tests reachability before app installation. A guest Wi-Fi network with client isolation can prevent devices from reaching each other. Leave your router's port forwarding off.
 
-## 2 · Put the source on GitHub
-
-Install [Git for Windows](https://git-scm.com/download/win) if needed. Sign in to GitHub and create an empty repository named **nexus-mission-control**. Choose private if you prefer. Leave the README, license and .gitignore options unchecked because the local project already has files.
-
-In File Explorer, open the folder containing this README. Type `powershell` in the address bar and press Enter. Run these commands one at a time. Replace YOUR-USERNAME with your GitHub username.
-
-```powershell
-git init -b main
-git add .
-git status --short
-git commit -m "Build NEXUS Mission Control"
-git remote add origin https://github.com/YOUR-USERNAME/nexus-mission-control.git
-git push -u origin main
-```
-
-Review the staged file list before committing. Include `.github/workflows/ios.yml`, `backend/`, `frontend/`, `ios/`, `run.bat`, this README and `.gitignore`. The pairing file lives outside the project. The virtual environment is ignored. If Git requests an author identity, set `git config user.name "Your Name"` and `git config user.email "your-github-email"` in this folder and retry the commit. Complete Git's browser sign-in when prompted.
 
 ## 3 · Build the unsigned IPA from Windows
 
