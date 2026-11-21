@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>NEXUS · Mission control</title><link rel="stylesheet" href="/style.css"><script defer src="/dashboard.js"></script></head>
+<body><header><div class="brand"><b aria-hidden="true">N</b> NEXUS</div><span>MISSION CONTROL</span></header>
+<main><section class="intro"><div><small>PC TELEMETRY</small><h1>System overview</h1><p id="host">Pair with your PC to view live telemetry.</p></div><strong id="status" role="status">Disconnected</strong></section>
+<form id="pair"><label for="token">Pairing token</label><input id="token" type="password" required autocomplete="off" placeholder="Paste your PC’s token"><button>Connect</button></form>
+<button id="disconnect" hidden>Disconnect</button><p id="message" role="status"></p>
+<section class="cards" aria-label="System readings" id="cards"></section>
+<section class="plot"><div class="plothead"><div><small>RESOURCE HISTORY</small><h2>Processor &amp; memory</h2></div><div class="legend">● CPU <em>● RAM</em></div></div>
+<canvas id="chart" aria-label="CPU and RAM utilization over the last minute"></canvas><div class="axis"><span>60 seconds ago</span><span>Now</span></div></section>
+<footer><span>System drive &nbsp;/&nbsp; aggregate network adapters</span><span id="stamp">Awaiting sample</span></footer></main></body></html>

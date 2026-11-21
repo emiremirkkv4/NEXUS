@@ -1,0 +1,39 @@
+name: Build unsigned NEXUS IPA
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: macos-26
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: ios
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate Xcode project
+        run: |
+          command -v xcodegen || brew install xcodegen
+          xcodebuild -version
+          xcodegen generate
+      - name: Build for a physical iPhone
+        run: |
+          xcodebuild -project NEXUS.xcodeproj -scheme NEXUS -configuration Release \
+            -sdk iphoneos -destination 'generic/platform=iOS' -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build
+      - name: Package and check the unsigned app
+        run: |
+          mkdir -p Payload
+          ditto build/Build/Products/Release-iphoneos/NEXUS.app Payload/NEXUS.app
+          test -x Payload/NEXUS.app/NEXUS
+          plutil -lint Payload/NEXUS.app/Info.plist
+          if codesign --verify Payload/NEXUS.app 2>/dev/null; then echo 'Unexpected signed app'; exit 1; fi
+          /usr/bin/zip -qry NEXUS.ipa Payload
+          unzip -tq NEXUS.ipa
+          unzip -Z1 NEXUS.ipa | grep -Fx 'Payload/NEXUS.app/NEXUS'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: NEXUS-unsigned
+          path: ios/NEXUS.ipa
+          if-no-files-found: error
+          retention-days: 14

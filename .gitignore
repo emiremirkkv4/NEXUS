@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+*.token
+*.ipa
+*.p12
+*.mobileprovision
+DerivedData/
+build/
+*.xcodeproj/
+.DS_Store
