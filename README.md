@@ -17,14 +17,6 @@ Set your trusted home network to **Private** in Windows Settings → Network & i
 
 On iPhone Safari, open the printed LAN URL followed by `/api/v1/status`. You should see `{"online":true}`. This tests reachability before app installation. A guest Wi-Fi network with client isolation can prevent devices from reaching each other. Leave your router's port forwarding off.
 
-
-## 3 · Build the unsigned IPA from Windows
-
-1. Open your repository on GitHub. Confirm the workflow is present on the default branch. Open **Actions**, enable workflows if prompted, and select **Build unsigned NEXUS IPA**.
-2. Select **Run workflow**, choose **main** and click the green **Run workflow** button. Open the new run to follow its logs. Hosted macOS runner use is subject to the repository's Actions allowance and billing settings. [GitHub runner images](https://github.com/actions/runner-images)
-3. GitHub provisions a macOS machine, installs XcodeGen if needed, generates the Xcode project from `ios/project.yml`, and runs Xcode's Release device build with signing disabled. The deployment target is **iOS 17.0**. The workflow packages the executable and resources under `Payload/NEXUS.app`, checks the ZIP and uploads `NEXUS.ipa`. The runner needs no Apple account, team, password or signing certificate.
-4. After a **successful** run, open the run summary and download **NEXUS-unsigned** under **Artifacts** while signed in. Extract GitHub's outer ZIP on Windows. Keep the inner **NEXUS.ipa** intact. Artifacts are retained for 14 days or the shorter limit set by your repository. If the build fails, expand the first failed step and read the first Xcode or package error. [Downloading workflow artifacts](https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/downloading-workflow-artifacts)
-
 ## 4 · Sign and install on your iPhone.
 
 1. Check Settings → General → About for iOS 17 or later. Download **Sideloadly for Windows** from its official site. Follow its Windows prerequisites for Apple's desktop iTunes and iCloud installers. The official download page provides links and guidance for Microsoft Store installations. [Sideloadly downloads and FAQ](https://sideloadly.io/)
