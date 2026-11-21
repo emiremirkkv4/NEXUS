@@ -1,6 +1,6 @@
 # NEXUS Mission Control
 
-Monitor your Windows gaming PC from a browser or the native NEXUS iPhone app. One read-only Windows service samples the machine about every two seconds. The PC, laptop and iPhone can use the same trusted home network. The PC can use Ethernet if it connects to the same LAN as the phone.
+Monitor your Windows gaming PC from a browser or the native NEXUS iPhone and Android app. One read-only Windows service samples the machine about every two seconds. The PC, laptop and iPhone can use the same trusted home network. The PC can use Ethernet if it connects to the same LAN as the phone.
 
 ## 1 · Start on Windows
 
