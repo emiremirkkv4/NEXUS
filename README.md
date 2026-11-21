@@ -25,7 +25,7 @@ On iPhone Safari, open the printed LAN URL followed by `/api/v1/status`. You sho
 3. GitHub provisions a macOS machine, installs XcodeGen if needed, generates the Xcode project from `ios/project.yml`, and runs Xcode's Release device build with signing disabled. The deployment target is **iOS 17.0**. The workflow packages the executable and resources under `Payload/NEXUS.app`, checks the ZIP and uploads `NEXUS.ipa`. The runner needs no Apple account, team, password or signing certificate.
 4. After a **successful** run, open the run summary and download **NEXUS-unsigned** under **Artifacts** while signed in. Extract GitHub's outer ZIP on Windows. Keep the inner **NEXUS.ipa** intact. Artifacts are retained for 14 days or the shorter limit set by your repository. If the build fails, expand the first failed step and read the first Xcode or package error. [Downloading workflow artifacts](https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/downloading-workflow-artifacts)
 
-## 4 · Sign and install on your iPhone 13
+## 4 · Sign and install on your iPhone.
 
 1. Check Settings → General → About for iOS 17 or later. Download **Sideloadly for Windows** from its official site. Follow its Windows prerequisites for Apple's desktop iTunes and iCloud installers. The official download page provides links and guidance for Microsoft Store installations. [Sideloadly downloads and FAQ](https://sideloadly.io/)
 2. Connect and unlock the iPhone using a data-capable USB cable. Tap **Trust This Computer** and enter the device passcode if prompted. Select your iPhone in Sideloadly and drag **NEXUS.ipa** into its window.
