@@ -116,7 +116,7 @@ private struct Devices: View {
                 Text(monitor.status).foregroundStyle(.cyan)
                 if let os = monitor.samples.last?.os { Text(os).font(.caption) }
             }.card()
-            ForEach(["ESP32", "ESP32-CAM", "3D printer"], id: \.self) { name in
+            ForEach(["3D printer"], id: \.self) { name in
                 VStack(alignment: .leading, spacing: 6) {
                     Text(name).font(.headline)
                     Text("Future integration").font(.caption).foregroundStyle(.secondary)
@@ -145,8 +145,8 @@ private struct SettingsView: View {
                      host == "192.168.56.1" ? "Requires a network route to this PC interface." :
                      "Start the Windows server on the same address.")
                     .font(.footnote).foregroundStyle(.secondary)
-                TextField("PC IPv4 address", text: $host).keyboardType(.decimalPad)
-                TextField("Server port", text: $port).keyboardType(.numberPad)
+                TextField("PC IPv4 address", text: $host).keyboardType(.default).textInputAutocapitalization(.never).autocorrectionDisabled()
+                TextField("Server port", text: $port).keyboardType(.default).autocorrectionDisabled()
                 SecureField("Pairing token", text: $token)
                     .autocorrectionDisabled().textInputAutocapitalization(.never)
                 Text("Leave the token blank to reuse the Keychain entry for this address and port.")

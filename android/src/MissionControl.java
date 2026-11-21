@@ -26,7 +26,7 @@ public class MissionControl extends Activity {
     private LinearLayout root;
     private ScrollView scroll;
     private TextView status, detail, pc, settingsStatus;
-    private EditText port, token, interval;
+    private EditText host, port, token, interval;
     private Button addressPicker;
     private TextView addressHint;
     private String selectedIP;
@@ -111,28 +111,28 @@ public class MissionControl extends Activity {
         LinearLayout machine = card(screens[1]);
         machine.addView(label("Windows PC",18,LIGHT,true));
         pc = label("",15,MUTED,false); machine.addView(pc);
-        for (String name : new String[]{"ESP32","ESP32-CAM","3D printer"}) {
+        for (String name : new String[]{"3D printer"}) {
             LinearLayout device = card(screens[1]);
             device.addView(label(name,18,LIGHT,true)); device.addView(label("Future integration",14,MUTED,false));
         }
         LinearLayout settings = card(screens[2]);
-        settings.addView(label("Server address",14,MUTED,false));
+        host = field(settings,"Server address",selectedIP,InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         addressPicker = button("");
         addressPicker.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         addressPicker.setPadding(dp(12),0,dp(12),0);
         addressPicker.setOnClickListener(v -> new android.app.AlertDialog.Builder(this)
             .setTitle("Server address").setSingleChoiceItems(addresses, Arrays.asList(addresses).indexOf(selectedIP), (dialog,index) -> {
-                selectedIP=addresses[index]; token.setText(""); refreshAddress(); dialog.dismiss();
+                selectedIP=addresses[index]; host.setText(selectedIP); token.setText(""); refreshAddress(); dialog.dismiss();
             }).setNegativeButton("Cancel",null).show());
         settings.addView(addressPicker,rowParams(0,6));
         addressHint=label("",13,MUTED,false);
         settings.addView(addressHint,rowParams(0,4)); refreshAddress();
-        port = field(settings,"Port",prefs.getString("port","8765"),InputType.TYPE_CLASS_NUMBER);
+        port = field(settings,"Port",prefs.getString("port","8765"),InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         token = field(settings,"Pairing token","",InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
         token.setSaveEnabled(false);
         token.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
         token.setHint("Leave blank to use saved token");
-        interval = field(settings,"Refresh interval (2–30 seconds)",prefs.getString("interval","2"),InputType.TYPE_CLASS_NUMBER);
+        interval = field(settings,"Refresh interval (2–30 seconds)",prefs.getString("interval","2"),InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         connect = button("Connect"); settings.addView(connect,rowParams(0,16));
         connect.setOnClickListener(v -> { if (active) stop("Disconnected","Open Settings to connect."); else pair(); });
         settingsStatus = label("",14,MUTED,false); settings.addView(settingsStatus,rowParams(0,12));
@@ -149,7 +149,7 @@ public class MissionControl extends Activity {
         }
     }
     private void refreshAddress() {
-        addressPicker.setText(selectedIP+"   ▾");
+        addressPicker.setText("Choose saved address   ▾");
         addressHint.setText(selectedIP.equals("127.0.0.1") ? "Loopback reaches this phone. A local forward is required to reach the PC." :
             selectedIP.equals("192.168.56.1") ? "Requires a network route to this PC interface." : "Use the same address in the Windows launcher.");
     }
@@ -191,7 +191,7 @@ public class MissionControl extends Activity {
         status.setText(title); detail.setText(text); settingsStatus.setText(title+" · "+text);
     }
     private void controls() {
-        for(EditText e: new EditText[]{port,token,interval}) e.setEnabled(!active);
+        for(EditText e: new EditText[]{host,port,token,interval}) e.setEnabled(!active);
         addressPicker.setEnabled(!active);
         connect.setBackground(shape(active ? 0xff26394d : CYAN,12)); connect.setTextColor(active ? LIGHT : BG);
         connect.setText(active ? "Disconnect" : "Connect");
@@ -204,7 +204,12 @@ public class MissionControl extends Activity {
         generation++; main.removeCallbacksAndMessages(null); active=false; clear(); controls(); message(title,reason);
     }
     private void pair() {
-        String ip=selectedIP;
+        String ip=host.getText().toString().trim();
+        if (!Arrays.asList(addresses).contains(ip)) {
+            message("Check address","Choose one of the three saved addresses."); return;
+        }
+        selectedIP=ip;
+        refreshAddress();
         int p, seconds;
         try {
             p=Integer.parseInt(port.getText().toString());
